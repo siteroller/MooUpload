@@ -521,20 +521,11 @@ var MooUpload = new Class({
 
     var maincontainer_id = maincontainer.get('id');
 
-    var elementcontainer = new Element('li', {
-      'class': 'item'
-    }).inject(subcontainer);
+    var elementcontainer = new Element('li.item').inject(subcontainer);
 
-    var optionsel = new Element('div', {
-      'class': 'optionsel'
-    }).inject(elementcontainer);
+    var optionsel = new Element('div.optionsel').inject(elementcontainer);
 
-
-    var optiondelete = new Element('a', {
-      id: maincontainer_id+'_delete'+this.filelist.length,
-      'class': 'delete'
-    }).inject(optionsel);
-
+	var optiondelete = new Element('a.delete#'+maincontainer_id+'_delete'+this.filelist.length).inject(optionsel);
 
     var fileindex = this.filelist.length - 1;
 
@@ -552,30 +543,17 @@ var MooUpload = new Class({
       this.fireEvent('onFileDelete', [fileindex]);
     }.bind(this));
 
+	elementcontainer.adopt(
 
-    new Element('div', {
-      'class': 'filename',
-      html: file.name
-    }).inject(elementcontainer);
+	  new Element('div.filename', {html:file.name}),
 
-    /*
-    new Element('div', {
-      'class': 'filetype',
-      html: file.type || file.extension || 'n/a'
-    }).inject(elementcontainer);
-    */
+      // new Element('div.filetype', {html: file.type || file.extension || 'n/a'}),
+      
+      new Element('div.filesize', {html: (file.size || 'n/a') +' bytes'}),
+      
+      new Element('div.result#'+maincontainer_id+'_file_'+this.filelist.length)
 
-    new Element('div', {
-      'class': 'filesize',
-      html: (file.size || 'n/a') +' bytes'
-    }).inject(elementcontainer);
-
-    new Element('div', {
-      id: maincontainer_id+'_file_'+this.filelist.length,
-      'class': 'result'
-    }).inject(elementcontainer);
-
-    elementcontainer.highlight('#FFF', '#E3E3E3');
+ 	).highlight('#FFF', '#E3E3E3');
 
   },
 
@@ -592,9 +570,7 @@ var MooUpload = new Class({
 
   countContainers: function(subcontainer)
   {
-    var containers = this.getContainers(subcontainer);
-
-    return containers.length;
+    return this.getContainers(subcontainer).length;
   },
 
 
